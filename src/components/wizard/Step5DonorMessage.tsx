@@ -181,8 +181,8 @@ export const Step5DonorMessage: React.FC<Step5DonorMessageProps> = ({ onBack }) 
           </div>
         </div>
 
-        <span className="text-[11px] font-semibold text-emerald-800">
-          In-App & SMS Alerts
+        <span className="text-[11px] font-semibold text-emerald-800 flex items-center gap-1">
+          <span>In-App, SMS & Automated Gmail Alerts</span>
         </span>
       </div>
 

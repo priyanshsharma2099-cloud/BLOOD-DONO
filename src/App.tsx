@@ -20,9 +20,12 @@ import { FacilityDirectory } from './components/facilities/FacilityDirectory';
 import { FacilityPortal } from './components/facilities/FacilityPortal';
 import { BloodCamps } from './components/camps/BloodCamps';
 import { AdminPortal } from './components/admin/AdminPortal';
+import { NearestBloodMap } from './components/map/NearestBloodMap';
+
+import { EmailLogModal } from './components/email/EmailLogModal';
 
 const AppContent: React.FC = () => {
-  const { currentView } = useApp();
+  const { currentView, isEmailLogModalOpen, setIsEmailLogModalOpen } = useApp();
 
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
@@ -46,6 +49,7 @@ const AppContent: React.FC = () => {
           </div>
         )}
 
+        {currentView === 'nearest-map' && <NearestBloodMap />}
         {currentView === 'find-blood' && <FindBloodWizard />}
         {currentView === 'tracker' && <RequestTracker />}
         {currentView === 'donor-hub' && <DonorHub />}
@@ -72,6 +76,12 @@ const AppContent: React.FC = () => {
 
       {/* System Status & Diagnostics Modal */}
       <SystemReadinessModal />
+
+      {/* Automated Gmail & Email Notification Log Modal */}
+      <EmailLogModal
+        isOpen={isEmailLogModalOpen}
+        onClose={() => setIsEmailLogModalOpen(false)}
+      />
     </div>
   );
 };

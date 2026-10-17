@@ -21,10 +21,12 @@ import {
   INITIAL_REQUESTS,
 } from '../data/mockData';
 import { Language, TRANSLATIONS } from '../data/translations';
+import { sendEmergencyAlert } from '../services/emailService';
 
 export type AppView =
   | 'home'
   | 'find-blood'
+  | 'nearest-map'
   | 'facilities'
   | 'camps'
   | 'donor-hub'
@@ -140,6 +142,10 @@ interface AppContextType {
   // System readiness modal
   isReadinessModalOpen: boolean;
   setIsReadinessModalOpen: (open: boolean) => void;
+
+  // Email Notification Modal
+  isEmailLogModalOpen: boolean;
+  setIsEmailLogModalOpen: (open: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -169,6 +175,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentUserId] = useState<string>('user-primary-session');
 
   const [isReadinessModalOpen, setIsReadinessModalOpen] = useState(false);
+  const [isEmailLogModalOpen, setIsEmailLogModalOpen] = useState(false);
 
   // Wizard state
   const [wizardDraft, setWizardDraft] = useState<WizardDraft>(() => {
@@ -433,6 +440,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       createdAt: timestamp,
     }));
 
+    // Asynchronously dispatch emergency emails to matching consented donors
+    matchingDonors.forEach((donor) => {
+      sendEmergencyAlert({
+        recipientEmail: donor.email,
+        recipientName: donor.displayName,
+        bloodGroup: newRequest.bloodGroup,
+        component: newRequest.component.replace('_', ' '),
+        unitsRequested: newRequest.unitsRequested,
+        urgency: newRequest.urgency === 'immediate' ? 'Immediate (< 1 hr)' : newRequest.requiredBy,
+        hospitalName: newRequest.hospitalName,
+        location: newRequest.hospitalAddress,
+        requestId: newId,
+        customMessage: newRequest.donorMessage,
+      }).catch((err) => console.warn('Email dispatch alert failed:', err));
+    });
+
     setRequests((prev) => [newRequest, ...prev]);
     setNotifications((prev) => [...newNotifications, ...prev]);
     setActiveRequestId(newId);
@@ -661,6 +684,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         unreadNotificationsCount,
         isReadinessModalOpen,
         setIsReadinessModalOpen,
+        isEmailLogModalOpen,
+        setIsEmailLogModalOpen,
       }}
     >
       {children}

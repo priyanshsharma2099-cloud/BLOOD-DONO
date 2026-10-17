@@ -36,6 +36,10 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     facilityPortal: 'Facility Portal',
     adminPortal: 'Admin Portal',
     systemReadiness: 'System Status & Integrations',
+    sosEmergency: 'SOS EMERGENCY',
+    sosRadarTitle: 'Direct Donor & Bank Availability Radar',
+    sosRadarSub: 'Zero-friction emergency radar. Showing direct donors and hospital blood banks within immediate radius. Tap to call or navigate instantly without forms.',
+    upgradeToVerified: 'Need to submit documents later to request hospital delivery? Click here to upgrade to a verified request.',
   },
   es: {
     brandName: 'LifeLink AI',
@@ -72,6 +76,10 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     facilityPortal: 'Portal Hospitalario',
     adminPortal: 'Portal de Administración',
     systemReadiness: 'Estado del Sistema e Integraciones',
+    sosEmergency: 'EMERGENCIA SOS',
+    sosRadarTitle: 'Radar Inmediato de Donantes y Bancos',
+    sosRadarSub: 'Radar de emergencia sin fricción. Muestra donantes directos y bancos de sangre a menos de 5 km. Llame o navegue al instante sin formularios.',
+    upgradeToVerified: '¿Necesita enviar documentos más tarde para entrega hospitalaria? Haga clic aquí para pasar a solicitud verificada.',
   },
   hi: {
     brandName: 'LifeLink AI',
@@ -108,6 +116,10 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     facilityPortal: 'अस्पताल पोर्टल',
     adminPortal: 'एडमिन पोर्टल',
     systemReadiness: 'सिस्टम स्थिति और एकीकरण',
+    sosEmergency: 'SOS आपातकाल',
+    sosRadarTitle: 'प्रत्यक्ष रक्तदाता व बैंक उपलब्धता रडार',
+    sosRadarSub: 'शून्य-रुकावट आपातकालीन रडार। 5 किमी के भीतर उपलब्ध रक्तदाताओं और अस्पतालों को तुरंत दिखाता है। बिना किसी फॉर्म के तुरंत कॉल करें।',
+    upgradeToVerified: 'क्या अस्पताल डिलीवरी हेतु बाद में दस्तावेज जमा करने हैं? सत्यापित अनुरोध पर अपग्रेड करने के लिए यहां क्लिक करें।',
   },
   fr: {
     brandName: 'LifeLink AI',
@@ -144,5 +156,9 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     facilityPortal: 'Portail Hospitalier',
     adminPortal: 'Portail Administrateur',
     systemReadiness: 'État du Système & Intégrations',
+    sosEmergency: 'URGENCE SOS',
+    sosRadarTitle: 'Radar d’Urgence Donneurs & Banques',
+    sosRadarSub: 'Radar d’urgence sans formulaire. Affiche les donneurs et banques de sang dans un rayon de 5 km. Appelez ou naviguez instantanément.',
+    upgradeToVerified: 'Besoin de soumettre des documents plus tard pour livraison hospitalière ? Cliquez ici pour passer à une demande vérifiée.',
   },
 };

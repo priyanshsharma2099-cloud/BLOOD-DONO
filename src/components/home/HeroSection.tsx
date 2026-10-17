@@ -36,18 +36,25 @@ export const HeroSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-10">
             <button
               onClick={startNewBloodRequest}
-              className="px-8 py-4 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-extrabold text-base rounded-xl shadow-lg shadow-rose-600/20 hover:shadow-rose-600/30 transition-all flex items-center justify-center gap-3 group tracking-wide"
+              className="px-7 py-4 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-extrabold text-base rounded-xl shadow-lg shadow-rose-600/20 hover:shadow-rose-600/30 transition-all flex items-center justify-center gap-3 group tracking-wide"
             >
               <span>{t('findBloodNow')}</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
 
             <button
-              onClick={() => setCurrentView('facilities')}
-              className="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm rounded-xl transition-colors flex items-center justify-center gap-2 border border-slate-200"
+              onClick={() => setCurrentView('nearest-map')}
+              className="px-6 py-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm rounded-xl transition-colors flex items-center justify-center gap-2 border border-slate-800 shadow-sm"
             >
-              <MapPin className="w-4 h-4 text-slate-500" />
-              <span>Browse Facilities Directory</span>
+              <MapPin className="w-4 h-4 text-rose-500" />
+              <span>Nearest Blood Map</span>
+            </button>
+
+            <button
+              onClick={() => setCurrentView('facilities')}
+              className="px-5 py-4 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm rounded-xl transition-colors flex items-center justify-center gap-2 border border-slate-200"
+            >
+              <span>Facilities</span>
             </button>
           </div>
 

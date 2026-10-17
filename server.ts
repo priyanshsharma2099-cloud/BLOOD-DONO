@@ -96,6 +96,41 @@ Return ONLY the message text without quotation marks or bullet points.`;
   }
 });
 
+// Proxy route for Gmail API send (bypasses browser iframe CORS limits)
+app.post('/api/gmail/send', async (req: Request, res: Response) => {
+  const { accessToken, raw } = req.body;
+
+  if (!accessToken || !raw) {
+    return res.status(400).json({ error: 'Missing accessToken or raw email content.' });
+  }
+
+  try {
+    const gmailRes = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ raw }),
+    });
+
+    const data = await gmailRes.json();
+    if (!gmailRes.ok) {
+      return res.status(gmailRes.status).json({
+        error: data.error?.message || `Gmail API returned ${gmailRes.status}`,
+        details: data,
+      });
+    }
+
+    return res.json(data);
+  } catch (err: unknown) {
+    console.error('Server Gmail proxy error:', err);
+    return res.status(500).json({
+      error: err instanceof Error ? err.message : 'Internal Server Error while communicating with Gmail API',
+    });
+  }
+});
+
 // Start server with Vite middleware in dev or static in prod
 async function start() {
   if (process.env.NODE_ENV === 'production') {

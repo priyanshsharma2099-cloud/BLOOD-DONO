@@ -146,6 +146,20 @@ export const SystemReadinessModal: React.FC = () => {
                 Local session persistence survives browser reloads; request drafts and records are preserved.
               </p>
             </div>
+
+            {/* Gmail & Google Workspace */}
+            <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 sm:col-span-2">
+              <div className="flex items-center justify-between mb-1">
+                <span className="font-semibold text-slate-900">Google Workspace & Gmail System</span>
+                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  OAuth 2.0 Scopes Configured
+                </span>
+              </div>
+              <p className="text-slate-500">
+                Client-side Firebase OAuth integration with Gmail send/read scopes. Supports direct live Gmail dispatch and high-fidelity simulated API fallback with full localStorage persistence.
+              </p>
+            </div>
           </div>
         </div>
 

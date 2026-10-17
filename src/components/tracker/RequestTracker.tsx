@@ -15,8 +15,10 @@ import {
   X, 
   Check, 
   PlusCircle, 
-  ArrowLeft 
+  ArrowLeft,
+  Mail
 } from 'lucide-react';
+import { sendEmergencyAlert } from '../../services/emailService';
 
 export const RequestTracker: React.FC = () => {
   const { 
@@ -29,11 +31,14 @@ export const RequestTracker: React.FC = () => {
     notifications, 
     donors, 
     cancelRequest, 
+    setIsEmailLogModalOpen,
     t 
   } = useApp();
 
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
+  const [emailAlertSending, setEmailAlertSending] = useState(false);
+  const [emailSuccessNote, setEmailSuccessNote] = useState<string | null>(null);
 
   // Target request to view
   const currentRequest = requests.find((r) => r.id === activeRequestId) || requests[0];
@@ -262,6 +267,44 @@ export const RequestTracker: React.FC = () => {
               <span>Simulate Hospital Unit Allocation (+1)</span>
             </button>
 
+            <button
+              onClick={async () => {
+                setEmailAlertSending(true);
+                setEmailSuccessNote(null);
+                try {
+                  await sendEmergencyAlert({
+                    recipientEmail: 'oncall.transfusion@metrotrauma.org',
+                    recipientName: 'On-Call Transfusion Desk',
+                    bloodGroup: currentRequest.bloodGroup,
+                    component: currentRequest.component,
+                    unitsRequested: currentRequest.unitsRequested,
+                    urgency: currentRequest.requiredBy,
+                    hospitalName: currentRequest.hospitalName,
+                    location: currentRequest.hospitalAddress,
+                    requestId: currentRequest.id,
+                    customMessage: currentRequest.donorMessage,
+                  });
+                  setEmailSuccessNote('Emergency Gmail alert dispatched to oncall.transfusion@metrotrauma.org!');
+                  setTimeout(() => setEmailSuccessNote(null), 4000);
+                } finally {
+                  setEmailAlertSending(false);
+                }
+              }}
+              disabled={emailAlertSending}
+              className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors disabled:opacity-50"
+            >
+              <Mail className={`w-3.5 h-3.5 ${emailAlertSending ? 'animate-pulse' : ''}`} />
+              <span>{emailAlertSending ? 'Sending...' : 'Dispatch Emergency Gmail Alert'}</span>
+            </button>
+
+            <button
+              onClick={() => setIsEmailLogModalOpen(true)}
+              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors border border-slate-700"
+            >
+              <Mail className="w-3.5 h-3.5 text-rose-400" />
+              <span>View Gmail Dispatch Logs</span>
+            </button>
+
             {linkedNotifications.length > 0 && (
               <>
                 <button
@@ -280,6 +323,13 @@ export const RequestTracker: React.FC = () => {
               </>
             )}
           </div>
+
+          {emailSuccessNote && (
+            <div className="p-2.5 bg-emerald-950/80 border border-emerald-500/50 rounded-lg text-emerald-200 text-xs flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>{emailSuccessNote}</span>
+            </div>
+          )}
         </div>
 
         {/* Two-Column Grid: Donor Outreach Roster + Activity Timeline */}

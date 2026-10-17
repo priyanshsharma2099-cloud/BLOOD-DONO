@@ -3,6 +3,7 @@ import { useApp, AppView } from '../../context/AppContext';
 import { 
   Heart, 
   Bell, 
+  Mail,
   Menu, 
   X, 
   Globe, 
@@ -26,13 +27,15 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNotifications, onOpenRoleM
     t, 
     currentRole, 
     unreadNotificationsCount, 
-    startNewBloodRequest 
+    startNewBloodRequest,
+    setIsEmailLogModalOpen
   } = useApp();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
 
   const navItems: { label: string; view: AppView }[] = [
+    { label: 'Nearest Blood Map', view: 'nearest-map' },
     { label: t('facilitiesDirectory'), view: 'facilities' },
     { label: t('camps'), view: 'camps' },
     { label: t('donorHub'), view: 'donor-hub' },
@@ -137,6 +140,17 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNotifications, onOpenRoleM
               )}
             </div>
 
+            {/* Email Alerts Trigger */}
+            <button
+              onClick={() => setIsEmailLogModalOpen(true)}
+              className="relative p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors"
+              aria-label="Open Email Notification Log"
+              title="Automated Email & Gmail Dispatch Log"
+            >
+              <Mail className="w-5 h-5 text-rose-600" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-600 rounded-full ring-2 ring-white" />
+            </button>
+
             {/* Notifications Trigger */}
             <button
               onClick={onOpenNotifications}
@@ -219,6 +233,17 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNotifications, onOpenRoleM
                 {item.label}
               </button>
             ))}
+
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setIsEmailLogModalOpen(true);
+              }}
+              className="w-full text-left px-3 py-2 text-sm rounded-lg text-slate-700 hover:bg-slate-50 flex items-center justify-between"
+            >
+              <span>Email & Gmail Alerts Log</span>
+              <Mail className="w-4 h-4 text-rose-600" />
+            </button>
           </div>
 
           <div className="pt-2">
